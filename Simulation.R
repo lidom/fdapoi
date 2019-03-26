@@ -233,18 +233,12 @@ for (DGP in DGP.seq) {
           colnames(np.dat) <- c(paste(c("Y", paste("X", rep(1:length(logit.PoI.estim$tau.ind.hat)), sep = ""))))
           ## Derive optimal bandwidths by CV (we here use least squares cross validation and local linear regression):
           bw.all           <- npregbw(formula = as.formula(paste("Y~", paste(names(np.dat)[-1], collapse = "+"))),
-                                      regtype = "ll", bwmethod = "cv.ls", data = np.dat)
+                                      regtype = "lc", bwmethod = "cv.aic", data = np.dat)
           ## Execute non parametric regression:
           model.np         <- npreg(bws = bw.all)
           ## Save the Mean-Squared-Error
           np.mse.cv.PoI    <- mean((pi.x - fitted(model.np) ^ 2))
-          ## ####################################################
-          ## Alternative to CV: use very simple bandwidths (this is much faster)
-          bw.simple        <- rep(N^(-1 / (length(logit.PoI.estim$tau.ind.hat) + 4)), length(logit.PoI.estim$tau.ind.hat))
-          model.np2        <- npreg(formula = as.formula(paste("Y~", paste(names(np.dat)[-1], collapse = "+"))),
-                                    regtype = "ll", bws = bw.simple, data = np.dat)
-          np.mse.sim.PoI   <- mean((pi.x - fitted(model.np2) ^ 2))
-        } else { np.mse.cv.PoI <- Inp.mse.sim.PoI <- NA }
+        } else { np.mse.cv.PoI <- NA }
         ## ####################################################
         ## Plotting: let's look at a slice of the nonparametric regression along one direction
         ## x.eval <- data.frame(X1 = seq(-2, 2, length.out = 100))
