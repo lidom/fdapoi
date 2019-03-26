@@ -1,15 +1,7 @@
-library("devtools")
-getwd()
-setwd("./fdapoi")
-
-devtools::document() ## makes the documentation using roxygen
-
-## Checking
-setwd("..")
-# devtools::check("fdapoi")
-
 remove.packages("fdapoi")
-devtools::install("fdapoi")
+devtools::document("fdapoi_pkg") 
+devtools::check("fdapoi_pkg")
+devtools::install("fdapoi_pkg")
 
 
 # library("fdapoi")
