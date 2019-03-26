@@ -21,7 +21,7 @@ b               <- 1
 ##
 DGP.seq         <- c(1, 2, 3, 4, 5)
 
-N.seq           <- c(100,200,500,1000,5000)
+N.seq           <- c(100,200,500,1000,3000)
 p.seq           <- c(100,500,1000)
 ##
 ##
@@ -257,11 +257,11 @@ for (DGP in DGP.seq) {
             np.dat.TRH    <- data.frame(Y, t(X.mat[logit.TRH.estim$tau.ind.hat,, drop = F])) #create data.frame for np reg with estimated points of impact
             ## Derive optimal bandwidths by CV (we here use least squares cross validation and local linear regression):
             bw.all.TRH    <- npregbw(formula = as.formula(paste("Y~", paste(names(np.dat.TRH)[-1], collapse = "+"))),
-                                     regtype = "ll", bwmethod = "cv.ls", data = np.dat.TRH)
+                                     regtype = "lc", bwmethod = "cv.aic", data = np.dat.TRH)
             ## Execute non parametric regression:
             model.np.TRH  <- npreg(bws = bw.all.TRH)
             ## Save the Mean-Squared-Error
-            np.mse.TRH <- mean((pi.x - fitted(model.np.TRH) ^ 2))
+            np.mse.TRH    <- mean((pi.x - fitted(model.np.TRH) ^ 2))
           }
         }
         ## ####################################################
