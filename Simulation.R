@@ -105,8 +105,8 @@ for (DGP in DGP.seq) {
                                    "tau1.ind.hat.TRH","tau2.ind.hat.TRH","tau3.ind.hat.TRH","tau4.ind.hat.TRH", "S.hat.TRH")
       }
       ## NP-Regression
-      sim.np.results           <- matrix(NA, nrow = B, ncol = 4)
-      colnames(sim.np.results) <-c("np.mse.cv.PoI", "np.mse.sim.PoI", "np.mse.cv.TRH", "np.mse.sim.TRH")
+      sim.np.results           <- matrix(NA, nrow = B, ncol = 2)
+      colnames(sim.np.results) <-c("np.mse.PoI", "np.mse.TRH")
       ## ######################################################
       for(repet in 1:B){
         ## ####################################################
@@ -237,8 +237,8 @@ for (DGP in DGP.seq) {
           ## Execute non parametric regression:
           model.np         <- npreg(bws = bw.all)
           ## Save the Mean-Squared-Error
-          np.mse.cv.PoI    <- mean((pi.x - fitted(model.np) ^ 2))
-        } else { np.mse.cv.PoI <- NA }
+          np.mse.PoI       <- mean((pi.x - fitted(model.np) ^ 2))
+        } else { np.mse.PoI <- NA }
         ## ####################################################
         ## Plotting: let's look at a slice of the nonparametric regression along one direction
         ## x.eval <- data.frame(X1 = seq(-2, 2, length.out = 100))
@@ -247,12 +247,10 @@ for (DGP in DGP.seq) {
         ## lines(as.matrix(x.eval), exp(beta0 + as.matrix(x.eval) * beta) / (1 + exp(beta0 + as.matrix(x.eval) * beta)), type = "l", col = "red")
         #######################################################################
         ##
-        np.mse.cv.TRH  <- np.mse.cv.PoI
-        np.mse.sim.TRH <- np.mse.sim.PoI
         # just a little precaution: 
         # the next three lines might be deleted?!
         if (Error_Checker(logit.TRH.estim) || is.na(logit.TRH.estim$tau.ind.hat)) {
-          np.mse.sim.TRH <- np.mse.cv.TRH <- NA
+          np.mse.TRH <- NA
         } else {
           if (!all(logit.PoI.estim$tau.ind.hat == logit.TRH.estim$tau.ind.hat) || Error_Checker(logit.PoI.estim)) {
             ## Create data frame consisting of Y and X evaluated at the estimated points of impact:
@@ -263,13 +261,7 @@ for (DGP in DGP.seq) {
             ## Execute non parametric regression:
             model.np.TRH  <- npreg(bws = bw.all.TRH)
             ## Save the Mean-Squared-Error
-            np.mse.cv.TRH <- mean((pi.x - fitted(model.np.TRH) ^ 2))
-            ## ####################################################
-            ## Alternative to CV: use very simple bandwidths (this is much faster)
-            bw.simple.TRH <- rep(N ^ (-1 / (length(logit.TRH.estim$tau.ind.hat) + 4)), length(logit.TRH.estim$tau.ind.hat))
-            model.np2.TRH <- npreg(formula = as.formula(paste("Y~", paste(names(np.dat.TRH)[-1], collapse = "+"))),
-                                   regtype = "ll", bws = bw.simple.TRH, data = np.dat.TRH)
-            np.mse.sim.TRH <- mean((pi.x - fitted(model.np2.TRH) ^ 2))
+            np.mse.TRH <- mean((pi.x - fitted(model.np.TRH) ^ 2))
           }
         }
         ## ####################################################
@@ -281,8 +273,7 @@ for (DGP in DGP.seq) {
         #######################################################################
         ## ####################################################
         ## Return simulation results for np-reg:
-        sim.np.results[repet,] <- c(np.mse.cv.PoI, np.mse.sim.PoI, 
-                                    np.mse.cv.TRH, np.mse.sim.TRH)
+        sim.np.results[repet,] <- c(np.mse.PoI, np.mse.TRH)
       }## End of foreach-loop over 1:B
       ## ###################
       ## Save results
