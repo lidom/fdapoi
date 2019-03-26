@@ -6,7 +6,8 @@
 \usage{
 FUN_PoI_BIC(Y = Y, X.mat = X.mat, a = 0, b = 1, CoVars = NULL,
   S.max = 5, show.pb = FALSE, k.seq = NULL, IC = c("bic",
-  "aic")[1], standardize.X = FALSE, family = "binomial")
+  "aic")[1], standardize.X = FALSE, center.X = FALSE,
+  family = "binomial")
 }
 \arguments{
 \item{Y}{dependent variable (n-vector)}
@@ -27,7 +28,9 @@ FUN_PoI_BIC(Y = Y, X.mat = X.mat, a = 0, b = 1, CoVars = NULL,
 
 \item{IC}{information criterion ("bic" (default), or "aic")}
 
-\item{standardize.X}{standardize the functional predictors (default standardize.X  = FALSE)}
+\item{standardize.X}{standardize (to unit variance) the functional predictors (default standardize.X  = FALSE)}
+
+\item{center.X}{center the functional predictors (default center.X = FALSE)}
 
 \item{family}{any family of ?stats::family (default family = "binomial")}
 }

@@ -5,7 +5,7 @@
 \title{FUN_PoI_THR}
 \usage{
 FUN_PoI_TRH(Y, X.mat, a = 0, b = 1, scale = 1.5,
-  force.1st.PoI = FALSE)
+  force.1st.PoI = FALSE, center.X = FALSE)
 }
 \arguments{
 \item{Y}{dependent variable (n-vector)}
@@ -19,6 +19,8 @@ FUN_PoI_TRH(Y, X.mat, a = 0, b = 1, scale = 1.5,
 \item{scale}{scaling parameter c_delta (default scale=1.5)}
 
 \item{force.1st.PoI}{force selection of the first impact point (default force.1st.PoI = FALSE)}
+
+\item{center.X}{center the functional predictors (default center.X = FALSE)}
 }
 \description{
 This function is an implementation of the threshold estimator THR.
