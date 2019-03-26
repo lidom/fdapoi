@@ -1,6 +1,5 @@
 # R package: fdapoi
 
-
 This R package belongs to the supplementary material for the paper: 
 
 Super-Consistent Estimation of Points of Impact in Nonparametric Regression with Functional Predictors
