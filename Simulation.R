@@ -1,12 +1,11 @@
 ## Load packages:
 library("glmulti")   # glm: subset selection 
 library("MASS")      # multivariate normals
-library("devtools")  # install packages
 library("np")        # for nonparametric regression
-options(np.messages = FALSE) # surpress messages from np (like "Multistart x of y")
+options(np.messages = FALSE) # surpress run-time messages from np (like "Multistart x of y")
 
 ## Install and load the accompaning R-package 
-devtools::install(pkg="fdapoi")
+## devtools::install(pkg="fdapoi_pkg")
 library("fdapoi")   
 
 
