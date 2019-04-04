@@ -136,19 +136,10 @@ for (DGP in DGP.seq) {
         pi.x   <- exp(beta0 + X.tau %*% beta) / (1 + exp(beta0 + X.tau %*% beta))
         Y      <- rbinom(n=length(1:N), size=1, prob=pi.x)
         
-        # ## Estimations
-        # if (DGP == 1) {
-        #   ## ####################################################
-        #   ## Estimation procedure of Lindquist & McKeague
-        #   ## ####################################################
-        #   LMcK.estim        <- FUN_LMcK(Y=Y, X.mat=X.mat) 
-        #   beta0.hat.LMcK    <- LMcK.estim$beta0.hat
-        #   beta.hat.LMcK     <- LMcK.estim$beta.hat
-        #   tau.ind.hat.LMcK  <- LMcK.estim$tau.ind.slct
-        # }
-        ## ####################################################
-        ## Our PoI estimation procedure
-        ## ####################################################
+        mpdf.estim <- try(mpdp(CURVES = t(X.mat), Response = Y, nbmax = ifelse(DGP==1, S, S+2), nbbw = 3))
+        mpdf.estim$Fwdselection
+        
+        
         logit.PoI.estim  <- try(
           FUN_PoI_BIC(
             Y          = Y, 
@@ -197,36 +188,7 @@ for (DGP in DGP.seq) {
           length(tau.ind.hat.PoI)  <- 4
           length(tau.ind.hat.TRH)  <- 4
         }
-        ## ####################################################
-        ## Feedback
-        ## if(repet %% 200 ==0){cat("repet/B =", repet,"/", B,"\n")}
-        ## ####################################################
-        ## Return simulation results:
-        if(DGP==1){
-          sim.results[repet,] <- c(
-            ## PoI
-            beta0.hat.PoI,
-            beta.hat.PoI,
-            tau.ind.hat.PoI,
-            ## LMcK
-            beta0.hat.LMcK,
-            beta.hat.LMcK,
-            tau.ind.hat.LMcK
-          )
-        }else{
-          sim.results[repet,] <- c(
-            ## PoI
-            beta0.hat.PoI,
-            beta.hat.PoI,
-            tau.ind.hat.PoI,
-            S.hat.PoI,
-            ## THR
-            beta0.hat.TRH,
-            beta.hat.TRH,
-            tau.ind.hat.TRH,
-            S.hat.TRH
-          )
-        }
+        
         ## ####################################################
         ## NP-regression
         ## ####################################################
@@ -245,7 +207,7 @@ for (DGP in DGP.seq) {
         ## ####################################################
         ## Plotting: let's look at a slice of the nonparametric regression along one direction
         ## x.eval <- data.frame(X1 = seq(-2, 2, length.out = 100))
-        ## model.np.pred<-predict(model.np2, newdata = x.eval)
+        ## model.np.pred<-predict(model.np, newdata = x.eval)
         ## plot(as.matrix(x.eval),model.np.pred,type="l")
         ## lines(as.matrix(x.eval), exp(beta0 + as.matrix(x.eval) * beta) / (1 + exp(beta0 + as.matrix(x.eval) * beta)), type = "l", col = "red")
         #######################################################################

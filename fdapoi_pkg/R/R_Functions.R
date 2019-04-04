@@ -607,6 +607,41 @@ Allocator <- function(tau.ind.hat, beta.hat, tau.ind.true = tau.ind.true, p = p)
 }
 
 
+
+Allocator2 <- function(tau.ind.hat, tau.ind.true = tau.ind.true, p = p){
+  ##
+  S.hat <- length(tau.ind.hat)
+  S     <- length(tau.ind.true)
+  ## 
+  if(any(diff(tau.ind.true)<=0)){stop("tau.ind.true must be strictly increasing.")}
+  ##
+  tau.ind.hat.alloc <- rep(NA, S)
+  ##
+  if ( all(!is.na(tau.ind.hat)) ) {# Only if there are no NAs
+    ##
+    if(S==1){
+      ind.aux           <- which.min(abs(tau.ind.hat - tau.ind.true))
+      tau.ind.hat.alloc <- tau.ind.hat[ind.aux]
+    }
+    ##
+    if(S > 1){
+      ## define intervals for allocating the estimated PoI candidates (one interval for each true PoI): 
+      vbin     <- c(0, sapply(2:length(tau.ind.true), function(x) 0.5 * (tau.ind.true[x] + tau.ind.true[x - 1])), p)
+      ## 1st column: empirical PoI indices, 2nd column corresponding allocation intervals
+      aux.tau  <- cbind(tau.ind.hat, findInterval(tau.ind.hat, vbin, all.inside = T))
+      ## Allocating the empirical PoIs and their slope-estimates to the 1st, 2nd, ... allocation interval
+      for (vv in 1:S)
+        if (any(aux.tau[, 2] == vv)) {#vv=1
+          ind.aux               <- which.min(abs(aux.tau[which(aux.tau[, 2] == vv), 1] - tau.ind.true[vv]))
+          tau.ind.hat.alloc[vv] <- aux.tau[ which(aux.tau[ , 2] == vv), 1][ind.aux]
+        }
+    }
+  }
+  return(list("tau.ind.hat.alloc" = tau.ind.hat.alloc))
+}
+
+
+
 #' Video Rating Data
 #'
 #' A dataset containing the emotion ratings reported from n=67 participants 
