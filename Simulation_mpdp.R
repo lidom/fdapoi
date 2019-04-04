@@ -1,4 +1,4 @@
-setwd("/home/dom/git_repos/fdapoi")
+setwd("/home/dom/git_repos/fdapoi/")
 
 ## Load packages:
 library("glmulti")   # glm: subset selection 
