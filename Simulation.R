@@ -198,7 +198,7 @@ for (DGP in DGP.seq) {
         ## Feedback
         ## if(repet %% 200 ==0){cat("repet/B =", repet,"/", B,"\n")}
         ## ####################################################
-        ## Return simulation results:
+        ## Collect simulation results:
         if(DGP==1){
           sim.results[repet,] <- c(
             ## PoI
@@ -270,7 +270,7 @@ for (DGP in DGP.seq) {
         ## lines(as.matrix(x.eval), exp(beta0 + as.matrix(x.eval) * beta) / (1 + exp(beta0 + as.matrix(x.eval) * beta)), type = "l", col = "red")
         #######################################################################
         ## ####################################################
-        ## Return simulation results for np-reg:
+        ## Collect simulation results for np-reg:
         sim.np.results[repet,] <- c(np.mse.PoI, np.mse.TRH)
       }## End of foreach-loop over 1:B
       ## ###################
