@@ -106,7 +106,7 @@ for (DGP in DGP.seq) {
       }
       ## NP-Regression
       sim.np.results           <- matrix(NA, nrow = B, ncol = 2)
-      colnames(sim.np.results) <-c("np.mse.PoI", "np.mse.TRH")
+      colnames(sim.np.results) <- c("np.mse.PoI", "np.mse.TRH")
       ## ######################################################
       for(repet in 1:B){
         ## ####################################################
@@ -227,42 +227,40 @@ for (DGP in DGP.seq) {
         ## ####################################################
         ## NP-regression
         ## ####################################################
-        if (!Error_Checker(logit.PoI.estim)) {
+        if (Error_Checker(logit.PoI.estim) | N == max(N.seq) | length(c(na.omit(tau.ind.hat.PoI))) == 0) {
+          np.mse.PoI <- NA
+        } else {
           ## Create data frame consisting of Y and X evaluated at the estimated points of impact:
-          np.dat           <- data.frame(Y, t(X.mat[logit.PoI.estim$tau.ind.hat,, drop = F])) #create data.frame for np reg with estimated points of impact
+          np.dat           <- data.frame(Y, t(X.mat[c(na.omit(tau.ind.hat.PoI)),, drop = F])) 
           colnames(np.dat) <- c(paste(c("Y", paste("X", rep(1:length(logit.PoI.estim$tau.ind.hat)), sep = ""))))
-          ## Derive optimal bandwidths by CV (we here use least squares cross validation and local linear regression):
+          ## Derive optimal bandwidths by aic.CV:
           bw.all           <- npregbw(formula = as.formula(paste("Y~", paste(names(np.dat)[-1], collapse = "+"))),
                                       regtype = "lc", bwmethod = "cv.aic", data = np.dat)
           ## Execute non parametric regression:
           model.np         <- npreg(bws = bw.all)
           ## Save the Mean-Squared-Error
-          np.mse.PoI       <- mean((pi.x - fitted(model.np) ^ 2))
-        } else { np.mse.PoI <- NA }
+          np.mse.PoI       <- mean((pi.x - fitted(model.np))^2)
+        }
         ## ####################################################
         ## Plotting: let's look at a slice of the nonparametric regression along one direction
         ## x.eval <- data.frame(X1 = seq(-2, 2, length.out = 100))
-        ## model.np.pred<-predict(model.np2, newdata = x.eval)
+        ## model.np.pred <-predict(model.np2, newdata = x.eval)
         ## plot(as.matrix(x.eval),model.np.pred,type="l")
         ## lines(as.matrix(x.eval), exp(beta0 + as.matrix(x.eval) * beta) / (1 + exp(beta0 + as.matrix(x.eval) * beta)), type = "l", col = "red")
         #######################################################################
         ##
-        # just a little precaution: 
-        # the next three lines might be deleted?!
-        if (Error_Checker(logit.TRH.estim) || is.na(logit.TRH.estim$tau.ind.hat)) {
+        if (Error_Checker(logit.TRH.estim) | N== max(N.seq) | length(c(na.omit(tau.ind.hat.THR))) == 0) {
           np.mse.TRH <- NA
         } else {
-          if (!all(logit.PoI.estim$tau.ind.hat == logit.TRH.estim$tau.ind.hat) || Error_Checker(logit.PoI.estim)) {
-            ## Create data frame consisting of Y and X evaluated at the estimated points of impact:
-            np.dat.TRH    <- data.frame(Y, t(X.mat[logit.TRH.estim$tau.ind.hat,, drop = F])) #create data.frame for np reg with estimated points of impact
-            ## Derive optimal bandwidths by CV (we here use least squares cross validation and local linear regression):
-            bw.all.TRH    <- npregbw(formula = as.formula(paste("Y~", paste(names(np.dat.TRH)[-1], collapse = "+"))),
-                                     regtype = "lc", bwmethod = "cv.aic", data = np.dat.TRH)
-            ## Execute non parametric regression:
-            model.np.TRH  <- npreg(bws = bw.all.TRH)
-            ## Save the Mean-Squared-Error
-            np.mse.TRH    <- mean((pi.x - fitted(model.np.TRH) ^ 2))
-          }
+          ## Create data frame consisting of Y and X evaluated at the estimated points of impact:
+          np.dat.TRH    <- data.frame(Y, t(X.mat[c(na.omit(tau.ind.hat.THR)),, drop = F])) 
+          ## Derive optimal bandwidths by aic.CV:
+          bw.all.TRH    <- npregbw(formula = as.formula(paste("Y~", paste(names(np.dat.TRH)[-1], collapse = "+"))),
+                                   regtype = "lc", bwmethod = "cv.aic", data = np.dat.TRH)
+          ## Execute non parametric regression:
+          model.np.TRH  <- npreg(bws = bw.all.TRH)
+          ## Save the Mean-Squared-Error
+          np.mse.TRH    <- mean((pi.x - fitted(model.np.TRH))^2)
         }
         ## ####################################################
         ## Plotting: let's look at a slice of the nonparametric regression along one direction
