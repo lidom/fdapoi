@@ -244,7 +244,7 @@ for (DGP in DGP.seq) {
         ## ####################################################
         ## Plotting: let's look at a slice of the nonparametric regression along one direction
         ## x.eval <- data.frame(X1 = seq(-2, 2, length.out = 100))
-        ## model.np.pred <-predict(model.np2, newdata = x.eval)
+        ## model.np.pred <-predict(model.np, newdata = x.eval)
         ## plot(as.matrix(x.eval),model.np.pred,type="l")
         ## lines(as.matrix(x.eval), exp(beta0 + as.matrix(x.eval) * beta) / (1 + exp(beta0 + as.matrix(x.eval) * beta)), type = "l", col = "red")
         #######################################################################
@@ -265,7 +265,7 @@ for (DGP in DGP.seq) {
         ## ####################################################
         ## Plotting: let's look at a slice of the nonparametric regression along one direction
         ## x.eval <- data.frame(X1 = seq(-2, 2, length.out = 100))
-        ## model.np.pred<-predict(model.np2.TRH, newdata = x.eval)
+        ## model.np.pred<-predict(model.np.TRH, newdata = x.eval)
         ## plot(as.matrix(x.eval),model.np.pred,type="l")
         ## lines(as.matrix(x.eval), exp(beta0 + as.matrix(x.eval) * beta) / (1 + exp(beta0 + as.matrix(x.eval) * beta)), type = "l", col = "red")
         #######################################################################
