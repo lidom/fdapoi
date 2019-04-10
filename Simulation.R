@@ -106,7 +106,7 @@ for (DGP in DGP.seq) {
       }
       ## NP-Regression
       sim.np.results           <- matrix(NA, nrow = B, ncol = 2)
-      colnames(sim.np.results) <- c("np.mse.PoI", "np.mse.TRH")
+      colnames(sim.np.results) <- c("np.mase.PoI", "np.mase.TRH")
       ## ######################################################
       for(repet in 1:B){
         ## ####################################################
@@ -227,8 +227,8 @@ for (DGP in DGP.seq) {
         ## ####################################################
         ## NP-regression
         ## ####################################################
-        if (Error_Checker(logit.PoI.estim) | N == max(N.seq) | length(c(na.omit(tau.ind.hat.PoI))) == 0) {
-          np.mse.PoI <- NA
+        if (Error_Checker(logit.PoI.estim) | N >= N.seq[4] | length(c(na.omit(tau.ind.hat.PoI))) == 0) {
+          np.mase.PoI <- NA
         } else {
           ## Create data frame consisting of Y and X evaluated at the estimated points of impact:
           np.dat           <- data.frame(Y, t(X.mat[c(na.omit(tau.ind.hat.PoI)),, drop = F])) 
@@ -238,8 +238,8 @@ for (DGP in DGP.seq) {
                                       regtype = "lc", bwmethod = "cv.aic", data = np.dat)
           ## Execute non parametric regression:
           model.np         <- npreg(bws = bw.all)
-          ## Save the Mean-Squared-Error
-          np.mse.PoI       <- mean((pi.x - fitted(model.np))^2)
+          ## Save the mean average squared error
+          np.mase.PoI      <- mean((pi.x - fitted(model.np))^2)
         }
         ## ####################################################
         ## Plotting: let's look at a slice of the nonparametric regression along one direction
@@ -249,8 +249,8 @@ for (DGP in DGP.seq) {
         ## lines(as.matrix(x.eval), exp(beta0 + as.matrix(x.eval) * beta) / (1 + exp(beta0 + as.matrix(x.eval) * beta)), type = "l", col = "red")
         #######################################################################
         ##
-        if (Error_Checker(logit.TRH.estim) | N== max(N.seq) | length(c(na.omit(tau.ind.hat.THR))) == 0) {
-          np.mse.TRH <- NA
+        if (Error_Checker(logit.TRH.estim) | N >= N.seq[4] | length(c(na.omit(tau.ind.hat.THR))) == 0) {
+          np.mase.TRH <- NA
         } else {
           ## Create data frame consisting of Y and X evaluated at the estimated points of impact:
           np.dat.TRH    <- data.frame(Y, t(X.mat[c(na.omit(tau.ind.hat.THR)),, drop = F])) 
@@ -259,8 +259,8 @@ for (DGP in DGP.seq) {
                                    regtype = "lc", bwmethod = "cv.aic", data = np.dat.TRH)
           ## Execute non parametric regression:
           model.np.TRH  <- npreg(bws = bw.all.TRH)
-          ## Save the Mean-Squared-Error
-          np.mse.TRH    <- mean((pi.x - fitted(model.np.TRH))^2)
+          ## Save the mean average squared error
+          np.mase.TRH   <- mean((pi.x - fitted(model.np.TRH))^2)
         }
         ## ####################################################
         ## Plotting: let's look at a slice of the nonparametric regression along one direction
@@ -271,7 +271,7 @@ for (DGP in DGP.seq) {
         #######################################################################
         ## ####################################################
         ## Collect simulation results for np-reg:
-        sim.np.results[repet,] <- c(np.mse.PoI, np.mse.TRH)
+        sim.np.results[repet,] <- c(np.mase.PoI, np.mase.TRH)
       }## End of foreach-loop over 1:B
       ## ###################
       ## Save results

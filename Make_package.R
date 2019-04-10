@@ -1,7 +1,7 @@
 utils::remove.packages("fdapoi")
-devtools::document("fdapoi_pkg") 
-devtools::check("fdapoi_pkg")
-devtools::install("fdapoi_pkg")
+devtools::document("fdapoi") 
+devtools::check("fdapoi")
+devtools::install("fdapoi")
 
 
 # library("fdapoi")
