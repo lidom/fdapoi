@@ -251,7 +251,7 @@ for (DGP in DGP.seq) {
         ## plot(as.matrix(x.eval),model.np.pred,type="l")
         ## lines(as.matrix(x.eval), exp(beta0 + as.matrix(x.eval) * beta) / (1 + exp(beta0 + as.matrix(x.eval) * beta)), type = "l", col = "red")
         #######################################################################
-        if (DGP == 1) { np.mase.PoI <- NA } 
+        if (DGP == 1) { np.mase.TRH <- NA } 
         if (DGP != 1) {
           if (Error_Checker(logit.TRH.estim) | N >= N.seq[4] | length(c(na.omit(tau.ind.hat.THR))) == 0) {
             np.mase.TRH <- NA
