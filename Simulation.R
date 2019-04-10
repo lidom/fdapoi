@@ -227,7 +227,7 @@ for (DGP in DGP.seq) {
         ## ####################################################
         ## NP-regression
         ## ####################################################
-        if (Error_Checker(logit.PoI.estim) | N >= N.seq[4] | length(c(na.omit(tau.ind.hat.PoI))) == 0) {
+        if (DGP==1 | Error_Checker(logit.PoI.estim) | N >= N.seq[4] | length(c(na.omit(tau.ind.hat.PoI))) == 0) {
           np.mase.PoI <- NA
         } else {
           ## Create data frame consisting of Y and X evaluated at the estimated points of impact:
@@ -249,7 +249,7 @@ for (DGP in DGP.seq) {
         ## lines(as.matrix(x.eval), exp(beta0 + as.matrix(x.eval) * beta) / (1 + exp(beta0 + as.matrix(x.eval) * beta)), type = "l", col = "red")
         #######################################################################
         ##
-        if (Error_Checker(logit.TRH.estim) | N >= N.seq[4] | length(c(na.omit(tau.ind.hat.THR))) == 0) {
+        if (DGP==1 | Error_Checker(logit.TRH.estim) | N >= N.seq[4] | length(c(na.omit(tau.ind.hat.THR))) == 0) {
           np.mase.TRH <- NA
         } else {
           ## Create data frame consisting of Y and X evaluated at the estimated points of impact:
