@@ -19,7 +19,7 @@ B               <- 1000
 a               <- 0
 b               <- 1
 ##
-DGP.seq         <- c(1, 2, 3, 4, 5)
+DGP.seq         <- c(1, 2, 3, 4, 5)[-1]
 
 N.seq           <- c(100,200,500,1000,3000)
 p.seq           <- c(100,500,1000)
@@ -234,7 +234,7 @@ for (DGP in DGP.seq) {
           } else {
             ## Create data frame consisting of Y and X evaluated at the estimated points of impact:
             np.dat           <- data.frame(Y, t(X.mat[c(na.omit(tau.ind.hat.PoI)),, drop = F])) 
-            colnames(np.dat) <- c(paste(c("Y", paste("X", rep(1:length(logit.PoI.estim$tau.ind.hat)), sep = ""))))
+            colnames(np.dat) <- c(paste(c("Y", paste("X", rep(1:length(c(na.omit(tau.ind.hat.PoI)))), sep = ""))))
             ## Derive optimal bandwidths by aic.CV:
             bw.all           <- npregbw(formula = as.formula(paste("Y~", paste(names(np.dat)[-1], collapse = "+"))),
                                         regtype = "lc", bwmethod = "cv.aic", data = np.dat)
@@ -253,11 +253,11 @@ for (DGP in DGP.seq) {
         #######################################################################
         if (DGP == 1) { np.mase.TRH <- NA } 
         if (DGP != 1) {
-          if (Error_Checker(logit.TRH.estim) | N >= N.seq[4] | length(c(na.omit(tau.ind.hat.THR))) == 0) {
+          if (Error_Checker(logit.TRH.estim) | N >= N.seq[4] | length(c(na.omit(tau.ind.hat.TRH))) == 0) {
             np.mase.TRH <- NA
           } else {
             ## Create data frame consisting of Y and X evaluated at the estimated points of impact:
-            np.dat.TRH    <- data.frame(Y, t(X.mat[c(na.omit(tau.ind.hat.THR)),, drop = F])) 
+            np.dat.TRH    <- data.frame(Y, t(X.mat[c(na.omit(tau.ind.hat.TRH)),, drop = F])) 
             ## Derive optimal bandwidths by aic.CV:
             bw.all.TRH    <- npregbw(formula = as.formula(paste("Y~", paste(names(np.dat.TRH)[-1], collapse = "+"))),
                                      regtype = "lc", bwmethod = "cv.aic", data = np.dat.TRH)
