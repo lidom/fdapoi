@@ -11,7 +11,7 @@ by Dominik Poß, Dominik Liebl, Hedwig Eisenbarth, Tor D. Wager, and Lisa Feldma
 
 The R-package can be installed using the following commands:
 
-`devtools::install_github("lidom/fdapoi/fdapoi_pkg")`
+`devtools::install_github("lidom/fdapoi/fdapoi")`
 
 ## Replications
 
