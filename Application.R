@@ -1,5 +1,3 @@
-rm(list=ls())
-
 ## External Packages:
 library("glmulti")    # glm: subset selection 
 library("scales")     # colorscales
@@ -7,16 +5,14 @@ library("lubridate")  # working with times and dates
 library("stargazer")  # LaTeX tables
 library("rcompanion") # stats for glm
 library("Hmisc")      # further stats for glm
-library("devtools")   # install packages
+library("devtools")   # to install the fdapoi package from GitHub
 
-## Set 'your_path' to 'GFLMPOI_blinded':
-my_path <- "your_path/GFLMPOI_blinded/"
+## Install the a ccompaning R-package fdapoi
+# devtools::install("fdapoi") # install from local pkg
+devtools::install_github("lidom/fdapoi/fdapoi") # install from Gitub
 
-## Install the a ccompaning R-package GFLMPOI
-devtools::install(pkg=paste0(my_path,"GFLMPOI"))
-
-## Load the accompaning R-package GFLMPOI
-library("GFLMPOI")    
+## Load the accompaning R-package fdapoi
+library("fdapoi")    
 
 ## Attach the data
 data("VideoRatingData")
