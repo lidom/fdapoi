@@ -240,7 +240,7 @@ for (DGP in DGP.seq) {
                                         regtype = "lc", bwmethod = "cv.aic", data = np.dat)
             ## Execute non parametric regression:
             model.np         <- npreg(bws = bw.all)
-            ## Save the mean average squared error
+            ## Save the average squared error
             np.mase.PoI      <- mean((pi.x - fitted(model.np))^2)
           }
         }
