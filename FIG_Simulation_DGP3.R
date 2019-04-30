@@ -10,7 +10,7 @@ plot_path <- "/home/dom/ownCloud/PoIGLMShared/Manuscript/Figures"
 ##
 B         <- 1000
 DGP       <- 3
-N.seq     <- c(100,200,500,1000,5000)
+N.seq     <- c(100,200,500,1000,3000)
 p.seq     <- c(100,500,1000)
 
 ## ##########################################
@@ -67,15 +67,8 @@ for(N in N.seq){
       for(s in 1:S){
         tau.ind.true[s]  <- which.min(abs(t.grid - tau.true[s]))
       }
-      #      load(paste0("Sim_Results/Sim_Results_DGP=", DGP, "_N=", N, "_p=", p, ".RData"))
-      
-      #LOAD IN DATA FROM D.L. simulation
+      ##
       load(paste0("Simulation_Results/Sim_Results_DGP=", DGP, "_N=", N, "_p=", p, ".RData"))
-      
-      
-      
-      
-      
       ##
       slct <- Sim_DGP3_df$DGP==DGP & Sim_DGP3_df$N==N & Sim_DGP3_df$p==p 
       ##
@@ -588,7 +581,7 @@ Plot_DGP3_2.aux<-Plot_DGP3_2.aux+
 
 
 Plot_DGP3_2.aux
-mylegend<-g_legend(Plot_DGP3_2.aux)
+mylegend <- g_legend(Plot_DGP3_2.aux)
 
 
 
