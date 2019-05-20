@@ -12,7 +12,3 @@ by Dominik Poß, Dominik Liebl, Alois Kneip, Hedwig Eisenbarth, Tor D. Wager, an
 The R-package can be installed using the following commands:
 
 `devtools::install_github("lidom/fdapoi/fdapoi")`
-
-## Replications
-
-The R-scripts `Simulation.R` and `Application.R` allow you to replicate the simulation study and the real-data application of the paper. 
