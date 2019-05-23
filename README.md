@@ -4,7 +4,7 @@ This R package belongs to the supplementary material for the paper:
 
 [Super-Consistent Estimation of Points of Impact in Nonparametric Regression with Functional Predictors](https://arxiv.org/abs/1905.09021)
 
-by Dominik Poß, Dominik Liebl, Hedwig Eisenbarth, Tor D. Wager, and Lisa Feldman Barrett
+by Dominik Poß, Dominik Liebl, Alois Kneip, Hedwig Eisenbarth, Tor D. Wager, and Lisa Feldman Barrett
 
 
 ## Installation
@@ -15,4 +15,4 @@ The R-package can be installed using the following commands:
 
 ## Replications
 
-The R-scripts `Simulation.R` and `Application.R` allow you to replicate the simulation study and the real-data application of the paper. 
+The R-scripts `Simulation.R` and `Application.R` allow you to replicate the main results of our simulation study and the real-data application of the paper. 
