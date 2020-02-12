@@ -644,7 +644,7 @@ Allocator2 <- function(tau.ind.hat, tau.ind.true = tau.ind.true, p = p){
 
 #' Video Rating Data
 #'
-#' A dataset containing the emotion ratings reported from n=67 participants 
+#' A dataset containing the emotion ratings reported from n=65 participants 
 #' while watching an affective online video on the persecution of African albinos. 
 #' A version of the video can be found online at YouTube (www.youtube.com). 
 #' Link to the video: https://youtu.be/9F6UpuJIFaY 
@@ -659,10 +659,10 @@ Allocator2 <- function(tau.ind.hat, tau.ind.true = tau.ind.true, p = p){
 #'
 #' @docType data
 #' @keywords datasets
-#' @name VideoRatingData
-#' @usage data(VideoRatingData)
-#' @format A data frame with 67 rows and 168 variables
-"VideoRatingData"
+#' @name emotion_rating
+#' @usage data(emotion_rating)
+#' @format A data frame with 65 rows and 168 variables
+"emotion_rating"
 
 
 
