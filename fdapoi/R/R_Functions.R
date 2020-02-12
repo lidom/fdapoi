@@ -16,7 +16,7 @@
 #' @export FUN_PoI_BIC
 FUN_PoI_BIC <- function(Y = Y, X.mat = X.mat, a = 0, b = 1,
                         CoVars         = NULL, 
-                        S.max          = 5, 
+                        S.max          = 10, 
                         show.pb        = FALSE, 
                         k.seq          = NULL,
                         IC             = c("bic", "aic")[1],

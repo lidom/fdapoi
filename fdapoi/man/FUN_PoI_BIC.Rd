@@ -5,7 +5,7 @@
 \title{FUN_PoI_BIC}
 \usage{
 FUN_PoI_BIC(Y = Y, X.mat = X.mat, a = 0, b = 1, CoVars = NULL,
-  S.max = 5, show.pb = FALSE, k.seq = NULL, IC = c("bic",
+  S.max = 10, show.pb = FALSE, k.seq = NULL, IC = c("bic",
   "aic")[1], standardize.X = FALSE, center.X = FALSE,
   family = "binomial")
 }

@@ -15,11 +15,11 @@ devtools::install_github("lidom/fdapoi/fdapoi") # install from Gitub
 library("fdapoi")    
 
 ## Attach the data
-data("VideoRatingData")
+data("emotion_rating")
 
 ## Variables: #################
-Y     <- VideoRatingData$Y
-X.mat <- t(as.matrix(VideoRatingData[,-1]))
+Y     <- emotion_rating$Y
+X.mat <- t(as.matrix(emotion_rating[,-1]))
 ##
 (p     <- nrow(X.mat))
 (N     <- ncol(X.mat))
@@ -29,25 +29,12 @@ b      <- 1
 t.grid <- (1:p-1)/(p-1)
 ## #############################
 
-
-## Figure of rating trajectories
-par(mar=c(4,5,4,1)+.1, cex.lab=1.3, cex=1.3)
-matplot(t.grid, X.mat, type = "l", lty=1, lwd=1, col=alpha("black", 0.55), xlab="", ylab="")
-mtext(side = 1, text = "Time (Standardized)", line = 3, at = 0.5, cex=1.3)
-mtext(side = 3, text = "very\npositive", line = -1.25, at = -.1, cex=1.3)
-mtext(side = 1, text = "very\nnegative", line = -.5,  at = -.1, cex=1.3)
-par(mar=c(5,4,4,2)+.1)
-dev.off()
-
-
 ## Estimation
 result.obj  <- FUN_PoI_BIC(Y             = Y, 
-                           X.mat         = X.mat, 
-                           S.max         = 3)
+                           X.mat         = X.mat)
 
 ## 
 summary(result.obj$glm.obj)
-
 
 ## Video time-points (min, sec) of the selected PoIs
 PoI_seconds <- TauIndHat_to_VideoSec(TauIndHat = result.obj$tau.ind.hat)
@@ -55,8 +42,8 @@ seconds_to_period(PoI_seconds)
 
 ## Link to the video: https://youtu.be/9F6UpuJIFaY
 
-## 1st: after 'even genetiles' 
-## 2nd: after 'Selling his brother's body parts'
+## 1st point of impact (movie scene):   Portrait shot of African albino nervously moving eyes 
+## 2nd point of impact (spoken workds): [...] selling his brother's body parts
 
 ## Peak-End Rule Predictors
 X.peak.abs   <- apply(X.mat[-p,],2,function(x)max(abs(x)))
@@ -80,33 +67,42 @@ PoI_glm      <- glm(Y ~ X.PoI.1     + X.PoI.2            , family = "binomial")
 
 
 ## LaTeX Table
-stargazer(PoI_glm, PER_1_glm, PER_2_glm, title="Results", align=TRUE)
+stargazer(PoI_glm, PER_1_glm, PER_2_glm, title="Results", align=TRUE, digits=2)
 
 ## Comparision stats:
-nagelkerke( PoI_glm )$Pseudo.R.squared.for.model.vs.null
-nagelkerke(PER_1_glm)$Pseudo.R.squared.for.model.vs.null
-nagelkerke(PER_2_glm)$Pseudo.R.squared.for.model.vs.null
+round(nagelkerke( PoI_glm )$Pseudo.R.squared.for.model.vs.null, 2)
+round(nagelkerke(PER_1_glm)$Pseudo.R.squared.for.model.vs.null, 2)
+round(nagelkerke(PER_2_glm)$Pseudo.R.squared.for.model.vs.null, 2)
 ##
-somers2(fitted(PoI_glm), Y)
-somers2(fitted(PER_1_glm), Y)
-somers2(fitted(PER_2_glm), Y)
+round(somers2(fitted(PoI_glm), Y), 2)
+round(somers2(fitted(PER_1_glm), Y), 2)
+round(somers2(fitted(PER_2_glm), Y), 2)
+
 
 ## Figure of estimation results:
-par(mar=c(4,5,4,1)+.1, cex=1.3, cex.lab=1.3)
-matplot(t.grid, X.mat, type = "l", lty=1, lwd=1, col=alpha("black", 0.35), xlab="", ylab="")
-mtext(side = 1, text = "Time (Standardized)", line = 3,     at = 0.5, cex=1.3)
-mtext(side = 3, text = "very\npositive", line = -1.0, at = -.11, cex=1.3)
-mtext(side = 1, text = "very\nnegative", line = -.25,   at = -.11, cex=1.3)
+cex_value <- 1.6
+par(mar=c(4,5.1,5,1)+.1, cex=cex_value, cex.lab=cex_value, family="serif")
+matplot(t.grid, X.mat, type = "l", lty=1, lwd=.25, col=gray(.5), xlab="", ylab="")
+mtext(side = 1, text = "Time (Standardized)", line = 3,     at = 0.5,  cex=cex_value)
+mtext(side = 3, text = "very\npositive",      line =  -1.8, at = -.19, cex=cex_value)
+mtext(side = 1, text = "very\nnegative",      line = -.5,   at = -.19, cex=cex_value)
 ##
 points(x = X.peak.t.pos, y = X.peak.pos, pch="p")
 points(x = X.peak.t.neg, y = X.peak.neg, pch="n")
 abline(v=t.grid[result.obj$tau.ind.hat])
-axis(side = 3, at = t.grid[result.obj$tau.ind.hat[1]], 
-     labels = "''Even genitals''", 
-     line = 0)
-axis(side = 3, at = t.grid[result.obj$tau.ind.hat[2]], 
-     labels = "''Selling his brother's\nbody parts''", 
-     line = 0)
+axis(side = 3, at = t.grid[result.obj$tau.ind.hat[1]], labels = "", line = 0)
+axis(side = 3, at = t.grid[result.obj$tau.ind.hat[1]],
+     labels = expression(hat(tau)[1]),
+     line = -.5, tick = F)
+axis(side = 3, at = t.grid[result.obj$tau.ind.hat[2]], labels = "", line = 0)
+axis(side = 3, at = t.grid[result.obj$tau.ind.hat[2]],
+     labels = expression(hat(tau)[2]),
+     line = -.5, tick = F)
+mtext(side = 3, at = t.grid[result.obj$tau.ind.hat[1]], 
+      text = "Movie scene:\nPortrait shot of African albino\nnervously moving eyes", 
+      line = 2, cex=cex_value)
+mtext(side = 3, at = t.grid[result.obj$tau.ind.hat[2]],
+      text = "Spoken works:\n''Selling his body parts''",
+      line = 2, cex=cex_value)
 par(mar=c(5,4,4,2)+.1)
 dev.off()
-
