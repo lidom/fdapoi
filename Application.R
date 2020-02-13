@@ -36,6 +36,14 @@ result.obj  <- FUN_PoI_BIC(Y             = Y,
 ## 
 summary(result.obj$glm.obj)
 
+## All potential points of impact (vertical lines):
+fdapoi:::PoIMaker(k = result.obj$k.opt, xc = X.mat, y = Y, a = a, b = b, plotting = TRUE)
+## Points of impact selected by the BIC:
+axis(side = 3, at = t.grid[result.obj$tau.ind.hat[1]], 
+     labels = expression(hat(tau)[1]), line = 0)
+axis(side = 3, at = t.grid[result.obj$tau.ind.hat[2]], 
+     labels = expression(hat(tau)[2]), line = 0)
+
 ## Video time-points (min, sec) of the selected PoIs
 PoI_seconds <- TauIndHat_to_VideoSec(TauIndHat = result.obj$tau.ind.hat)
 seconds_to_period(PoI_seconds)
@@ -83,9 +91,9 @@ round(somers2(fitted(PER_2_glm), Y), 2)
 cex_value <- 1.6
 par(mar=c(4,5.1,5,1)+.1, cex=cex_value, cex.lab=cex_value, family="serif")
 matplot(t.grid, X.mat, type = "l", lty=1, lwd=.25, col=gray(.5), xlab="", ylab="")
-mtext(side = 1, text = "Time (Standardized)", line = 3,     at = 0.5,  cex=cex_value)
-mtext(side = 3, text = "very\npositive",      line =  -1.8, at = -.19, cex=cex_value)
-mtext(side = 1, text = "very\nnegative",      line = -.5,   at = -.19, cex=cex_value)
+mtext(side = 1, text = "Time (Standardized)", line =  3.0, at =  0.5,  cex=cex_value)
+mtext(side = 3, text = "very\npositive",      line = -1.8, at = -.19,  cex=cex_value)
+mtext(side = 1, text = "very\nnegative",      line = -0.5, at = -.19,  cex=cex_value)
 ##
 points(x = X.peak.t.pos, y = X.peak.pos, pch="p")
 points(x = X.peak.t.neg, y = X.peak.neg, pch="n")
@@ -101,8 +109,8 @@ axis(side = 3, at = t.grid[result.obj$tau.ind.hat[2]],
 mtext(side = 3, at = t.grid[result.obj$tau.ind.hat[1]], 
       text = "Movie scene:\nPortrait shot of African albino\nnervously moving eyes", 
       line = 2, cex=cex_value)
-mtext(side = 3, at = t.grid[result.obj$tau.ind.hat[2]],
-      text = "Spoken works:\n''Selling his body parts''",
+mtext(side = 3, at = t.grid[result.obj$tau.ind.hat[2]]-.05,
+      text = "Spoken words:\n''[...] the money we've got\nfrom selling his body parts''",
       line = 2, cex=cex_value)
 par(mar=c(5,4,4,2)+.1)
 dev.off()
